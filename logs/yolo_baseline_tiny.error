@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "train.py", line 361, in <module>
+    min_epochs=opt.min_epochs
+  File "train.py", line 211, in main
+    optimizer=optimizer)
+  File "train.py", line 68, in run_epoch
+    losses = model(imgs, targets)
+  File "C:\ProgramData\Anaconda3\envs\MIT_YOLO\lib\site-packages\torch\nn\modules\module.py", line 493, in __call__
+    result = self.forward(*input, **kwargs)
+  File "C:\Users\Administrator\PycharmProjects\MIT_YOLO\models.py", line 321, in forward
+    x = module(x)
+  File "C:\ProgramData\Anaconda3\envs\MIT_YOLO\lib\site-packages\torch\nn\modules\module.py", line 493, in __call__
+    result = self.forward(*input, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\MIT_YOLO\lib\site-packages\torch\nn\modules\container.py", line 92, in forward
+    input = module(input)
+  File "C:\ProgramData\Anaconda3\envs\MIT_YOLO\lib\site-packages\torch\nn\modules\module.py", line 493, in __call__
+    result = self.forward(*input, **kwargs)
+  File "C:\ProgramData\Anaconda3\envs\MIT_YOLO\lib\site-packages\torch\nn\modules\conv.py", line 338, in forward
+    self.padding, self.dilation, self.groups)
+RuntimeError: CUDA out of memory. Tried to allocate 20.00 MiB (GPU 0; 11.00 GiB total capacity; 5.08 GiB already allocated; 16.29 MiB free; 48.40 MiB cached)

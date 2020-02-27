@@ -1,0 +1,19 @@
+Initializing model
+Initializing data loaders
+Num train images:  15132
+Num validate images:  3077
+Training batch size: 16
+Checkpoint interval: 1
+Loss constants: [2, 1.6, 25, 0.1]
+Anchor boxes: [[13.477251565102941, 11.575637337941961], [22.26137229153354, 17.66822633636613], [33.064472956296804, 25.977976230935123], [46.576946122512396, 36.33784567190777], [62.933468143405676, 48.888459798286966], [81.89252731448791, 65.28682918216337], [108.42925619967495, 83.93800920523023], [151.85350492775095, 108.38056296607171], [224.56576162251665, 148.38432899717495]]
+Training image width: 800
+Training image height: 800
+Confidence Threshold: 0.8
+Number of training classes: 80
+Conv activation type: leaky
+Starting learning rate: 0.001
+Tile and scale mode [on]
+Data augmentation mode [off]
+Using Adam Optimizer
+Loading weights
+Model in train mode
