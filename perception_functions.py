@@ -27,8 +27,12 @@ def get_cones_from_camera(width, height, pixels):
 def convert_img_bits_to_RGBD(width, height, pixels):
     # convert bit format to RGB
     img_RGB = Image.frombytes("RGB", (width, height), pixels, 'raw', 'RGBX', 0,-1)
-    # convert bit format to depth TBD
-    img_depth = img_RGB
+    # convert bit format to depth channel
+    CHANNEL_COUNT = 4
+    frames = np.array(pixels)
+    deinterleaved = [frames[idx::CHANNEL_COUNT] for idx in range(CHANNEL_COUNT)]
+    img_depth = deinterleaved[3]
+
     return img_RGB, img_depth
 
 def cut_cones_from_img(target_img, BB):

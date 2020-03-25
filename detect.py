@@ -27,7 +27,6 @@ from utils.utils import xywh2xyxy, calculate_padding
 
 import warnings
 from tqdm import tqdm
-
 warnings.filterwarnings("ignore")
 
 detection_tmp_path = "/tmp/detect/"
