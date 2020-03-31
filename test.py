@@ -10,8 +10,9 @@ from perception_functions import predict_cone_color, predict_cone_depth,trasform
 img_RGB = Image.open('simulation data/four_cones_raw.jpg').convert('RGB')
 img_depth = Image.open('simulation data/four_cones_depth.png')
 width, height = img_RGB.width, img_RGB.height
-h_fov = 100
-v_fov = 80
+h_fov = 50  # [deg]
+v_fov = 29.394957  # [deg]
+
 # set NN parameters
 weights_path = 'outputs/february-2020-experiments/yolo_baseline/9.weights'
 model_cfg = 'model_cfg/yolo_baseline.cfg'
@@ -43,7 +44,7 @@ img_cones = BB_list
 xyz_cones = trasform_img_cones_to_xyz(img_cones, img_depth, h_fov, v_fov, width, height)
 
 # print XYZ results
-print("Cones X,Y,Z list in ENU coordinate system (X - right, Y-forward, Z-upward):")
+print("Cones X,Y,Z list in ENU coordinate system (X - right, Y - forward, Z - upward):")
 for i, xyz_cone in enumerate(xyz_cones):
     print(f"({i}) X = {int(xyz_cone[0])}, Y = {int(xyz_cone[1])}, Z = {int(xyz_cone[2])}, type = {xyz_cone[3]}")
 
