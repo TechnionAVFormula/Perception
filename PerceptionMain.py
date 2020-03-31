@@ -1,5 +1,6 @@
 from PerceptionClient import PerceptionClient
 from pyFormulaClientNoNvidia import messages
+from perception_functions import get_cones_from_camera
 import time
 import signal
 import sys
@@ -9,7 +10,7 @@ class Perception:
     def __init__(self):
         # The sensors.messages can be created using the create_sensors_file.py
         # PerceptionClient(<path to read messages from>, <path to write sent messages to>)
-        self._client = PerceptionClient('modules/sensors.messages', 'modules/perception.messages')
+        self._client = PerceptionClient('sensors.messages', 'perception.messages')
         self._running_id = 1
         self.message_timeout = 0.01
 
@@ -27,7 +28,7 @@ class Perception:
         camera_data = messages.sensors.CameraSensor()
         camera_msg.data.Unpack(camera_data)
         # Camera data has the following properties: width, height, pixels
-        # print(f"Got camera width: {camera_data.width}, height: {camera_data.height}")
+        print(f"Got camera width: {camera_data.width}, height: {camera_data.height}")
 
         # Create the new cone map and append to it all of the recognized cones from the image
         cone_map = messages.perception.ConeMap()
@@ -37,13 +38,16 @@ class Perception:
         # w, h - width and height of bounding box in pixels
         # type - cone color: 'B' - blue, 'Y' - yellow, 'O' - orange
         # depth - nominal depth value
+
         img_cones = get_cones_from_camera(camera_data.width, camera_data.height, camera_data.pixels)
+        
+
 
         # transformation from image plain to cartesian coordinate system
         boxes = [
             {
                 'id': 1,
-                'x': 1,
+                'x': 25,
                 'y': 1,
                 'z': 1,
                 'type': messages.perception.Blue
@@ -90,7 +94,8 @@ class Perception:
                 cone_map = self.process_camera_message(camera_msg)
                 self.send_message2state(camera_msg.header.id, cone_map)    
             except Exception as e:
-                pass
+                #pass
+                print(e)
 
 perception = Perception()
 
