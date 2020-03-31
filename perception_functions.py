@@ -131,7 +131,7 @@ def trasform_img_point_to_xyz(img_point, img_depth, h_fov, v_fov, width, height)
     X = img_depth / np.tan(gamma_h * np.pi / 180)
     Z = img_depth / np.tan(gamma_v * np.pi / 180)
 
-    return [X,Y,Z]
+    return [X, Y, Z]
 
 def get_BB_img_point(img_cone):
     # return representative point in BB (bottom center of BB at the moment)
