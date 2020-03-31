@@ -125,7 +125,7 @@ def trasform_img_point_to_xyz(img_point, img_depth, h_fov, v_fov, width, height)
     alpha_v = (180 - v_fov)/2  # [deg]
     # calculating gammas:
     gamma_h = alpha_h + (1-u / width) * h_fov  # [deg]
-    gamma_v = alpha_v + (v / height) * h_fov  # [deg]
+    gamma_v = alpha_v + (v / height) * v_fov  # [deg]
     # calculating X,Y,Z in ENU coordinate system (X - right, Y-forward, Z-upward)
     Y = img_depth
     X = img_depth / np.tan(gamma_h * np.pi / 180)

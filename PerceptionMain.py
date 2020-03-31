@@ -27,8 +27,8 @@ class Perception:
     def process_camera_message(self, camera_msg):
         camera_data = messages.sensors.CameraSensor()
         camera_msg.data.Unpack(camera_data)
-        # Camera data has the following properties: width, height, pixels
-        print(f"Got camera width: {camera_data.width}, height: {camera_data.height}")
+        # Camera data has the following properties: width, height, pixels, h_fov, v_fov
+        # print(f"Got camera width: {camera_data.width}, height: {camera_data.height}")
 
         # Create the new cone map and append to it all of the recognized cones from the image
         cone_map = messages.perception.ConeMap()
@@ -54,7 +54,7 @@ class Perception:
             cone.x = xyz_cone[0]
             cone.y = xyz_cone[1]
             cone.z = xyz_cone[2]
-            cone_map.cones.append(cone) # apped the new cone to the cone map
+            cone_map.cones.append(cone)  # apped the new cone to the cone map
 
         return cone_map
 
