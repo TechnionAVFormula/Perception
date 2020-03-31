@@ -40,9 +40,10 @@ for i, BB in enumerate(BB_list):
 # X,Y,Z - in ENU coordinate system (X - right, Y-forward, Z-upward)
 # type - cone color: 'B' - blue, 'Y' - yellow, 'O' - orange
 img_cones = BB_list
-xyz_cones = trasform_img_cones_to_xyz(img_cones, img_depth, h_fov, v_fov,width, height)
+xyz_cones = trasform_img_cones_to_xyz(img_cones, img_depth, h_fov, v_fov, width, height)
+
 # print XYZ results
-print("Cones X,Y,Z list in  in ENU coordinate system (X - right, Y-forward, Z-upward):")
+print("Cones X,Y,Z list in ENU coordinate system (X - right, Y-forward, Z-upward):")
 for i, xyz_cone in enumerate(xyz_cones):
     print(f"({i}) X = {int(xyz_cone[0])}, Y = {int(xyz_cone[1])}, Z = {int(xyz_cone[2])}, type = {xyz_cone[3]}")
 
