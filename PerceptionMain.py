@@ -1,6 +1,6 @@
 from PerceptionClient import PerceptionClient
 from pyFormulaClientNoNvidia import messages
-from perception_functions import get_cones_from_camera
+from perception_functions import get_cones_from_camera, trasform_img_cones_to_xyz
 import time
 import signal
 import sys
@@ -38,30 +38,22 @@ class Perception:
         # w, h - width and height of bounding box in pixels
         # type - cone color: 'B' - blue, 'Y' - yellow, 'O' - orange
         # depth - nominal depth value
-
-        img_cones = get_cones_from_camera(camera_data.width, camera_data.height, camera_data.pixels)
-        
-
+        img_depth, img_cones = get_cones_from_camera(camera_data.width, camera_data.height, camera_data.pixels)
 
         # transformation from image plain to cartesian coordinate system
-        boxes = [
-            {
-                'id': 1,
-                'x': 25,
-                'y': 1,
-                'z': 1,
-                'type': messages.perception.Blue
-            }
-        ]
+        # xyz_cones = [[X, Y, Z, type], [X, Y, Z, type], ....]
+        # X,Y,Z - in ENU coordinate system (X - right, Y-forward, Z-upward)
+        # type - cone color: 'B' - blue, 'Y' - yellow, 'O' - orange
+        xyz_cones = trasform_img_cones_to_xyz(img_cones, img_depth, camera_data.h_fov, camera_data.v_fov,camera_data.width, camera_data.height)
 
-        for box in boxes:  
+        for index, xyz_cone in enumerate(xyz_cones):
             #   Create new cone and set its properties
             cone = messages.perception.Cone()
-            cone.cone_id = box['id']
-            cone.type = box['type']
-            cone.x = box['x']
-            cone.y = box['y']
-            cone.z = box['z']
+            cone.cone_id = index
+            cone.type = xyz_cone[3]
+            cone.x = xyz_cone[0]
+            cone.y = xyz_cone[1]
+            cone.z = xyz_cone[2]
             cone_map.cones.append(cone) # apped the new cone to the cone map
 
         return cone_map
