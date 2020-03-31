@@ -7,7 +7,8 @@ from detect import get_BB_from_img
 from perception_functions import predict_cone_color, predict_cone_depth
 
 # convert from bit representation to RGB + depth format
-img_RGB = Image.open('0000000066.png').convert('RGB')
+#img_RGB = Image.open('0000000066.png').convert('RGB')
+img_RGB = Image.open('cones_pic_from_google.jpg').convert('RGB')
 img_depth = img_RGB
 # set NN parameters
 weights_path = 'outputs/february-2020-experiments/yolo_baseline/9.weights'
