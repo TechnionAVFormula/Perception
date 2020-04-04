@@ -16,9 +16,9 @@ else:
 class PerceptionClient(ModuleClient):
     def __init__(self):
         if (CONFIG  == ConfigEnum.REAL_TIME) or (CONFIG == ConfigEnum.COGNATA_SIMULATION):
-            super().__init__(FormulaClient.ClientSource.STATE_EST)       
+            super().__init__(FormulaClient.ClientSource.PERCEPTION)       
         elif ( CONFIG == ConfigEnum.LOCAL_TEST):
-            super().__init__(FormulaClient.ClientSource.STATE_EST, IN_MESSAGE_FILE, OUT_MESSAGE_FILE)  
+            super().__init__(FormulaClient.ClientSource.PERCEPTION, IN_MESSAGE_FILE, OUT_MESSAGE_FILE)  
         self.server_messages = MessageDeque()                                              
         self.camera_messages = MessageDeque(maxlen=1)        
 
