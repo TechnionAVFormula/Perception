@@ -1,10 +1,19 @@
 from PerceptionClient import PerceptionClient
-from pyFormulaClientNoNvidia import messages
 from perception_functions import get_cones_from_camera, trasform_img_cones_to_xyz
 import time
 import signal
 import sys
 import math
+
+from config import CONFIG
+from config import ConfigEnum
+
+if (CONFIG  == ConfigEnum.REAL_TIME) or (CONFIG == ConfigEnum.COGNATA_SIMULATION):
+    from pyFormulaClient import messages
+elif ( CONFIG == ConfigEnum.LOCAL_TEST):
+    from pyFormulaClientNoNvidia import messages
+else:
+    raise NameError('User Should Choose Configuration from config.py')
 
 class Perception:
     def __init__(self):
