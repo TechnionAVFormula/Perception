@@ -1,22 +1,32 @@
 from PerceptionClient import PerceptionClient
-from pyFormulaClientNoNvidia import messages
 from perception_functions import get_cones_from_camera, trasform_img_cones_to_xyz
 import time
 import signal
 import sys
 import math
 
+from config import CONFIG
+from config import ConfigEnum
+
+if (CONFIG  == ConfigEnum.REAL_TIME) or (CONFIG == ConfigEnum.COGNATA_SIMULATION):
+    from pyFormulaClient import messages
+elif ( CONFIG == ConfigEnum.LOCAL_TEST):
+    from pyFormulaClientNoNvidia import messages
+else:
+    raise NameError('User Should Choose Configuration from config.py')
+
 class Perception:
     def __init__(self):
         # The sensors.messages can be created using the create_sensors_file.py
         # PerceptionClient(<path to read messages from>, <path to write sent messages to>)
-        self._client = PerceptionClient('modules/sensors.messages', 'modules/perception.messages')
+        self._client = PerceptionClient()
         self._running_id = 1
         self.message_timeout = 0.01
 
     def start(self):
         self._client.connect(1)
-        self._client.set_read_delay(0.05) # Sets the delay between reading new messages from sensors.messages
+        if CONFIG == ConfigEnum.LOCAL_TEST:
+            self._client.set_read_delay(0.05) # Sets the delay between reading new messages from sensors.messages
         self._client.start()
 
     def stop(self):
