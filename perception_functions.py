@@ -13,7 +13,7 @@ def get_cones_from_camera(width, height, pixels):
     model_cfg = 'model_cfg/yolo_baseline.cfg'
 
     # Detect cones in input image via YOLO
-    BB_list = get_BB_from_img(img_RGB,weights_path,model_cfg,conf_thres = 0.8,nms_thres = 0.25,xy_loss = 2,wh_loss = 1.6,no_object_loss = 25,vanilla_anchor = False)
+    BB_list = get_BB_from_img(img_RGB,weights_path,model_cfg,conf_thres = 0.8,nms_thres = 0.25,xy_loss = 2,wh_loss = 1.6,no_object_loss = 25,object_loss=0.1,vanilla_anchor = False)
 
     # classify detected cone to types
     for BB in BB_list:
