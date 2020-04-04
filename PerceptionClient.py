@@ -14,7 +14,7 @@ else:
 
 
 class PerceptionClient(ModuleClient):
-    def __init__(self, read_from_file, write_to_file):
+    def __init__(self):
         if (CONFIG  == ConfigEnum.REAL_TIME) or (CONFIG == ConfigEnum.COGNATA_SIMULATION):
             super().__init__(FormulaClient.ClientSource.STATE_EST)       
         elif ( CONFIG == ConfigEnum.LOCAL_TEST):
