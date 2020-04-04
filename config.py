@@ -9,8 +9,8 @@ class ConfigEnum(Enum):
 
 ## Choose method of running the whole State Estimation Module
 # CONFIG = ConfigEnum.LOCAL_TEST
-IN_MESSAGE_FILE = 'Messages/input_test.messages'
-OUT_MESSAGE_FILE = 'Messages/state.messages'
+IN_MESSAGE_FILE = 'Messages/sensors.messages'
+OUT_MESSAGE_FILE = 'Messages/perception.messages'
 
 ## all options:
 CONFIG = ConfigEnum.COGNATA_SIMULATION

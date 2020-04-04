@@ -19,7 +19,7 @@ class Perception:
     def __init__(self):
         # The sensors.messages can be created using the create_sensors_file.py
         # PerceptionClient(<path to read messages from>, <path to write sent messages to>)
-        self._client = PerceptionClient('modules/sensors.messages', 'modules/perception.messages')
+        self._client = PerceptionClient()
         self._running_id = 1
         self.message_timeout = 0.01
 
