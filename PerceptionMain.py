@@ -59,7 +59,7 @@ class Perception:
         # xyz_cones = [[X, Y, Z, type], [X, Y, Z, type], ....]
         # X,Y,Z - in ENU coordinate system (X - right, Y-forward, Z-upward)
         # type - cone color: 'B' - blue, 'Y' - yellow, 'O' - orange
-        xyz_cones = trasform_img_cones_to_xyz(img_cones, img_depth, camera_data.h_fov, camera_data.v_fov,camera_data.width, camera_data.height)
+        xyz_cones = trasform_img_cones_to_xyz(img_cones, img_depth, camera_data.config.hfov, camera_data.config.vfov, camera_data.width, camera_data.height)
 
         for index, xyz_cone in enumerate(xyz_cones):
             #   Create new cone and set its properties

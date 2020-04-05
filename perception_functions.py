@@ -4,6 +4,17 @@ import cv2
 import numpy as np
 from PIL import Image
 from detect import get_BB_from_img
+from config import CONFIG
+from config import ConfigEnum
+from PIL import Image, ImageDraw
+
+if (CONFIG  == ConfigEnum.REAL_TIME) or (CONFIG == ConfigEnum.COGNATA_SIMULATION):
+    from pyFormulaClient import messages
+elif ( CONFIG == ConfigEnum.LOCAL_TEST):
+    from pyFormulaClientNoNvidia import messages
+else:
+    raise NameError('User Should Choose Configuration from config.py')
+
 
 def get_cones_from_camera(width, height, pixels):
     # convert from bit representation to RGB + depth format
@@ -20,7 +31,8 @@ def get_cones_from_camera(width, height, pixels):
         cone_color = predict_cone_color(img_RGB,BB)
         cone_depth = predict_cone_depth(img_depth,BB)
         # BB = [x,y,w,h,type,depth]
-        BB.append(cone_color,cone_depth)
+        BB.append(cone_color)
+        BB.append(cone_depth)
     # BB_list = [BB_1,BB_2,...,BB_N]
     return img_depth, BB_list
 
@@ -31,7 +43,7 @@ def convert_img_bits_to_RGBD(width, height, pixels):
     CHANNEL_COUNT = 4
     frames = np.frombuffer(pixels, dtype=np.uint8)
     deinterleaved = [frames[idx::CHANNEL_COUNT] for idx in range(CHANNEL_COUNT)]
-    img_depth = deinterleaved[3]
+    img_depth = np.reshape(deinterleaved[3], (width, height))
 
     return img_RGB, img_depth
 
@@ -86,11 +98,11 @@ def predict_cone_color(target_img, BB):
     max_idx = n_white_pix.index(max_value)
 
     if max_idx == 0: # cone is yellow
-        return 'Y'
+        return messages.perception.Yellow
     elif max_idx == 1: # cone is blue
-        return 'B'
+        return messages.perception.Blue
     else: # cone is orange
-        return 'O'
+        return messages.perception.Orange
 
 def predict_cone_depth(img_depth, BB):
     frame = img_depth
@@ -109,8 +121,8 @@ def trasform_img_cones_to_xyz(img_cones, img_depth, h_fov, v_fov, width, height)
     # extract xyz coordinates of each cone
     xyz_cones = []  # list of (X,Y,Z,type) in ENU coordinate system (X - right, Y-forward, Z-upward)
     for img_cone_point in img_cone_points:
-        img_depth_px = img_depth.load()
-        img_cone_point_depth = img_depth_px[img_cone_point[0:2]] # specific point depth value
+        #img_depth_px = img_depth.load()
+        img_cone_point_depth = img_depth[img_cone_point[0:2]]  # specific point depth value
         xyz_cones.append(trasform_img_point_to_xyz(img_cone_point,img_cone_point_depth,h_fov,v_fov,width,height))
         # insert cone type to xyz_cones:
         xyz_cones[-1].append(img_cone_point[-1])
@@ -141,3 +153,18 @@ def get_BB_img_point(img_cone):
     h = img_cone[3]
     type = img_cone[4]
     return int(x+w/2), int(y+h), type
+
+# def draw_results_on_image(img,BBlist):
+#
+#     img_with_boxes = img
+#     draw = ImageDraw.Draw(img_with_boxes)
+#     w, h = img_with_boxes.size
+#
+#     for i in range(len(BBlist)):
+#         x0 = BBlist[i][0].to('cpu').item() / ratio - pad_w
+#         y0 = BBlist[i][0].to('cpu').item() / ratio - pad_h
+#         w = BBlist[i][0].to('cpu').item() / ratio - pad_w
+#         h = BBlist[i][0].to('cpu').item() / ratio - pad_h
+#         x1 = x0 + w
+#         y1 = y0 + h
+#         draw.rectangle((x0, y0, x1, y1), outline="red")
