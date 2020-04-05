@@ -23,10 +23,16 @@ class PerceptionClient(ModuleClient):
         self.camera_messages = MessageDeque(maxlen=1)        
 
     def _callback(self, msg):  
+        source = FormulaClient.ClientSource(msg.header.source)
+        print(f'Got message ({msg.header.id}){msg.data.TypeName()}  from  {source.name}')
         if msg.data.Is(messages.sensors.CameraSensor.DESCRIPTOR):
             self.camera_messages.put(msg)
         else:
             self.server_messages.put(msg)
+
+    def send_message(self, msg, timeout=FormulaClient.DW_TIMEOUT_INFINITE):
+        print(f'Sending message ({msg.header.id}){msg.data.TypeName()}')        
+        return super().send_message(msg, timeout=timeout)
 
     def get_camera_message(self, blocking=True, timeout=None):
         return self.camera_messages.get(blocking, timeout)
