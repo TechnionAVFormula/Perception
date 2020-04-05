@@ -102,7 +102,7 @@ def single_img_detect(target_img,model,device,conf_thres,nms_thres):
             # print("BB ", i, "| x = ", x0, "y = ", y0, "w = ", x1 - x0, "h = ", y1 - y0, "probability = ", probabilities_nms[i].item())
             BB = [round(x0), round(y0), round(y1 - y0), round(x1 - x0)]  # x, y, h, w
             BB_list.append(BB)
-        img_with_boxes.save('detected_cones.jpg')
+        #img_with_boxes.save('detected_cones.jpg')
         return BB_list
 
 
