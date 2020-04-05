@@ -154,17 +154,17 @@ def get_BB_img_point(img_cone):
     type = img_cone[4]
     return int(x+w/2), int(y+h), type
 
-# def draw_results_on_image(img,BBlist):
+# def draw_results_on_image(img, BBlist):
 #
 #     img_with_boxes = img
 #     draw = ImageDraw.Draw(img_with_boxes)
 #     w, h = img_with_boxes.size
 #
 #     for i in range(len(BBlist)):
-#         x0 = BBlist[i][0].to('cpu').item() / ratio - pad_w
-#         y0 = BBlist[i][0].to('cpu').item() / ratio - pad_h
-#         w = BBlist[i][0].to('cpu').item() / ratio - pad_w
-#         h = BBlist[i][0].to('cpu').item() / ratio - pad_h
+#         x0 = BBlist[i][0].to('cpu').item()
+#         y0 = BBlist[i][1].to('cpu').item()
+#         w = BBlist[i][2].to('cpu').item()
+#         h = BBlist[i][3].to('cpu').item()
 #         x1 = x0 + w
 #         y1 = y0 + h
 #         draw.rectangle((x0, y0, x1, y1), outline="red")
