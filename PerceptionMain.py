@@ -69,7 +69,7 @@ class Perception:
             cone.x = xyz_cone[0]
             cone.y = xyz_cone[1]
             cone.z = xyz_cone[2]
-            cone_map.cones.append(cone)  # apped the new cone to the cone map
+            cone_map.cones.append(cone)  # append the new cone to the cone map
 
         logging.debug("Finished processing camera message %d", camera_msg.header.id)
         return cone_map
