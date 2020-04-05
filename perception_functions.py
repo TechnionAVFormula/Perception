@@ -29,7 +29,7 @@ def convert_img_bits_to_RGBD(width, height, pixels):
     img_RGB = Image.frombytes("RGB", (width, height), pixels, 'raw', 'RGBX', 0,-1)
     # convert bit format to depth channel
     CHANNEL_COUNT = 4
-    frames = np.array(pixels)
+    frames = np.frombuffer(pixels, dtype=np.uint8)
     deinterleaved = [frames[idx::CHANNEL_COUNT] for idx in range(CHANNEL_COUNT)]
     img_depth = deinterleaved[3]
 
