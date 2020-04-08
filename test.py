@@ -4,22 +4,36 @@ import cv2
 import numpy as np
 from PIL import Image
 from detect import get_BB_from_img
-from perception_functions import predict_cone_color, predict_cone_depth,trasform_img_cones_to_xyz
+from perception_functions import predict_cone_color, predict_cone_depth, trasform_img_cones_to_xyz, draw_results_on_image
+from config import CONFIG
+from config import ConfigEnum
+if (CONFIG  == ConfigEnum.REAL_TIME) or (CONFIG == ConfigEnum.COGNATA_SIMULATION):
+    from pyFormulaClient import messages
+elif ( CONFIG == ConfigEnum.LOCAL_TEST):
+    from pyFormulaClientNoNvidia import messages
+else:
+    raise NameError('User Should Choose Configuration from config.py')
 
 # convert from bit representation to RGB + depth format
 img_RGB = Image.open('simulation data/four_cones_raw.jpg').convert('RGB')
 img_depth = Image.open('simulation data/four_cones_depth.png')
+img_depth = img_depth.load()
 width, height = img_RGB.width, img_RGB.height
 h_fov = 50  # [deg]
 v_fov = 29.394957  # [deg]
+
+# mapping from system runner cone type representation to string representation
+type_map = [' ']*3
+type_map[messages.perception.Yellow-1] ='yellow'
+type_map[messages.perception.Blue-1] ='blue'
+type_map[messages.perception.Orange-1] ='orange'
 
 # set NN parameters
 weights_path = 'outputs/february-2020-experiments/yolo_baseline/9.weights'
 model_cfg = 'model_cfg/yolo_baseline.cfg'
 
-# Detect cones in input image via YOLO
-
-# get image cones: BB_list=[[x,y,w,h,type,depth],[x,y,w,h,type,depth],....]
+# Detect cones in input image via YOLO:
+# get image cones: BB_list=[[x,y,h,w,type,depth],[x,y,h,w,type,depth],....]
 # x,y - left top bounding box position in image plain
 # w, h - width and height of bounding box in pixels
 # type - cone color: 'B' - blue, 'Y' - yellow, 'O' - orange
@@ -32,10 +46,16 @@ for BB in BB_list:
     # BB = [x,y,w,h,type,depth]
     BB.append(cone_color)
     BB.append(cone_depth)
+
 # print BB results
 print("Bounding box list in image plain:")
 for i, BB in enumerate(BB_list):
-    print(f"({i}) x = {BB[0]}, y = {BB[1]}, w = {BB[2]}, h = {BB[3]}, type = {BB[4]}, depth = {BB[5]}")
+    print(f"({i}) x = {BB[0]}, y = {BB[1]}, h = {BB[2]}, w = {BB[3]}, type = {type_map[BB[4]-1]}, depth = {BB[5]}")
+
+# draw results on image
+img_with_boxes = draw_results_on_image(img_RGB, BB_list, type_map)
+img_with_boxes.save('detected_cones.jpg')
+
 # transformation from image plain to cartesian coordinate system
 # xyz_cones = [(X, Y, Z, type), (X, Y, Z, type), ....]
 # X,Y,Z - in ENU coordinate system (X - right, Y-forward, Z-upward)
@@ -46,5 +66,5 @@ xyz_cones = trasform_img_cones_to_xyz(img_cones, img_depth, h_fov, v_fov, width,
 # print XYZ results
 print("Cones X,Y,Z list in ENU coordinate system (X - right, Y - forward, Z - upward):")
 for i, xyz_cone in enumerate(xyz_cones):
-    print(f"({i}) X = {int(xyz_cone[0])}, Y = {int(xyz_cone[1])}, Z = {int(xyz_cone[2])}, type = {xyz_cone[3]}")
+    print(f"({i}) X = {int(xyz_cone[0])}, Y = {int(xyz_cone[1])}, Z = {int(xyz_cone[2])}, type = {type_map[xyz_cone[3]-1]}")
 

@@ -6,7 +6,7 @@ from PIL import Image
 from detect import get_BB_from_img
 from config import CONFIG
 from config import ConfigEnum
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 if (CONFIG  == ConfigEnum.REAL_TIME) or (CONFIG == ConfigEnum.COGNATA_SIMULATION):
     from pyFormulaClient import messages
@@ -30,7 +30,7 @@ def get_cones_from_camera(width, height, pixels):
     for BB in BB_list:
         cone_color = predict_cone_color(img_RGB,BB)
         cone_depth = predict_cone_depth(img_depth,BB)
-        # BB = [x,y,w,h,type,depth]
+        # BB = [x,y,h,w,type,depth]
         BB.append(cone_color)
         BB.append(cone_depth)
     # BB_list = [BB_1,BB_2,...,BB_N]
@@ -154,17 +154,29 @@ def get_BB_img_point(img_cone):
     type = img_cone[4]
     return int(x+w/2), int(y+h), type
 
-# def draw_results_on_image(img, BBlist):
-#
-#     img_with_boxes = img
-#     draw = ImageDraw.Draw(img_with_boxes)
-#     w, h = img_with_boxes.size
-#
-#     for i in range(len(BBlist)):
-#         x0 = BBlist[i][0].to('cpu').item()
-#         y0 = BBlist[i][1].to('cpu').item()
-#         w = BBlist[i][2].to('cpu').item()
-#         h = BBlist[i][3].to('cpu').item()
-#         x1 = x0 + w
-#         y1 = y0 + h
-#         draw.rectangle((x0, y0, x1, y1), outline="red")
+def draw_results_on_image(img, BB_list, type_map):
+
+    img_with_boxes = img
+    draw = ImageDraw.Draw(img_with_boxes)
+    dy = 5
+    font = ImageFont.load_default()
+
+    for i in range(len(BB_list)):
+        # extract BB features:
+        x0 = BB_list[i][0]
+        y0 = BB_list[i][1]
+        h = BB_list[i][2]
+        w = BB_list[i][3]
+        raw_type = BB_list[i][4]
+        # build parameters
+        type = type_map[raw_type-1]
+        text = f"({i}) {type}"
+        x1 = x0 + w
+        y1 = y0 + h
+        # draw BB + indicative text
+        draw.rectangle((x0, y0, x1, y1), outline=type)
+        w_text, h_text = font.getsize(text)
+        draw.rectangle((x0, y0-h_text, x0 + w_text, y0), fill=type)
+        draw.text((x0, y0-h_text),text , fill=(0, 0, 0, 128))
+
+    return img_with_boxes
