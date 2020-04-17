@@ -146,19 +146,18 @@ def trasform_img_point_to_xyz(img_point, img_depth, h_fov, v_fov, width, height)
     return [X, Y, Z]
 
 def get_BB_img_point(img_cone):
-    # return representative point in BB (bottom center of BB at the moment)
+    # return representative point in BB (center of BB at the moment)
     x = img_cone[0]
     y = img_cone[1]
     w = img_cone[2]
     h = img_cone[3]
     type = img_cone[4]
-    return int(x+w/2), int(y+h), type
+    return int(x+w/2), int(y+h/2), type
 
 def draw_results_on_image(img, BB_list, type_map):
 
     img_with_boxes = img
     draw = ImageDraw.Draw(img_with_boxes)
-    dy = 5
     font = ImageFont.load_default()
 
     for i in range(len(BB_list)):

@@ -7,6 +7,7 @@ from detect import get_BB_from_img
 from perception_functions import predict_cone_color, predict_cone_depth, trasform_img_cones_to_xyz, draw_results_on_image
 from config import CONFIG
 from config import ConfigEnum
+import pandas as pd
 if (CONFIG  == ConfigEnum.REAL_TIME) or (CONFIG == ConfigEnum.COGNATA_SIMULATION):
     from pyFormulaClient import messages
 elif ( CONFIG == ConfigEnum.LOCAL_TEST):
@@ -14,13 +15,14 @@ elif ( CONFIG == ConfigEnum.LOCAL_TEST):
 else:
     raise NameError('User Should Choose Configuration from config.py')
 
+
 # convert from bit representation to RGB + depth format
 img_RGB = Image.open('simulation data/four_cones_raw.jpg').convert('RGB')
 img_depth = Image.open('simulation data/four_cones_depth.png')
 img_depth = img_depth.load()
 width, height = img_RGB.width, img_RGB.height
 h_fov = 50  # [deg]
-v_fov = 29.394957  # [deg]
+v_fov = 30  # [deg]
 
 # mapping from system runner cone type representation to string representation
 type_map = [' ']*3
@@ -67,4 +69,17 @@ xyz_cones = trasform_img_cones_to_xyz(img_cones, img_depth, h_fov, v_fov, width,
 print("Cones X,Y,Z list in ENU coordinate system (X - right, Y - forward, Z - upward):")
 for i, xyz_cone in enumerate(xyz_cones):
     print(f"({i}) X = {int(xyz_cone[0])}, Y = {int(xyz_cone[1])}, Z = {int(xyz_cone[2])}, type = {type_map[xyz_cone[3]-1]}")
+
+# convert detection results to pandas dataframe format
+img_df = pd.DataFrame()
+img_df['u'] = [BB[0] for BB in BB_list]
+img_df['v'] = [BB[1] for BB in BB_list]
+img_df['h'] = [BB[2] for BB in BB_list]
+img_df['w'] = [BB[3] for BB in BB_list]
+img_df['X'] = [round(xyz_cone[0]) for xyz_cone in xyz_cones]
+img_df['Y'] = [round(xyz_cone[1]) for xyz_cone in xyz_cones]
+img_df['Z'] = [round(xyz_cone[2]) for xyz_cone in xyz_cones]
+img_df['type'] = [type_map[xyz_cone[3]-1] for xyz_cone in xyz_cones]
+img_df.to_csv('simulation data/detection_results.csv')
+
 

@@ -3,7 +3,7 @@ import numpy as np
 from geometry import *
 import pptk
 
-several_points_only = False
+several_points_only = True
 
 hFOV = 50*np.pi/180
 
@@ -11,7 +11,7 @@ rgb_img = cv2.imread('Simulation data/four_cones_raw.jpg')
 d_img = cv2.imread('Simulation data/four_cones_depth.png', cv2.IMREAD_ANYDEPTH)  # the flag is important, this is a 16-bit image
 
 assert (rgb_img.shape[0:2] == d_img.shape[0:2])
-height = rgb_img.shape[0]  # horizontal size
+height = rgb_img.shape[0]  # horizontal size (actually vertical (Gilad))
 width = rgb_img.shape[1]
 f = width/(2*np.tan(hFOV/2))  # 1/2w        (hFOV)
                               # ----  = tan (----)
