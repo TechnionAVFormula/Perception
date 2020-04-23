@@ -66,28 +66,28 @@ def predict_cone_color(target_img, BB):
     # cv2.imshow("General", general)
 
     # Yellow color
-    low_yellow = np.array([20, 190, 20])
-    high_yellow = np.array([30, 255, 255])
+    low_yellow = np.array([94, 80, 2])
+    high_yellow = np.array([126, 255, 255])
     yellow_mask = cv2.inRange(hsv_frame, low_yellow, high_yellow)
     yellow = cv2.bitwise_and(general, general, mask=yellow_mask)
     # cv2.imshow("Yellow", yellow)
 
     # Blue color
-    low_blue = np.array([94, 80, 2])
-    high_blue = np.array([126, 255, 255])
+    low_blue = np.array([5, 50, 50])
+    high_blue = np.array([10, 295, 295])
     blue_mask = cv2.inRange(hsv_frame, low_blue, high_blue)
     blue = cv2.bitwise_and(general, general, mask=blue_mask)
     # cv2.imshow("Blue", blue)
 
     # Orange color
-    low_orange = np.array([5, 50, 50])
-    high_orange = np.array([10, 295, 295])
+    low_orange = np.array([20, 190, 20])
+    high_orange = np.array([30, 255, 255])
     orange_mask = cv2.inRange(hsv_frame, low_orange, high_orange)
     orange = cv2.bitwise_and(general, general, mask=orange_mask)
     # cv2.imshow("Orange", orange)
 
     final_frame = cv2.hconcat((frame, yellow, blue, orange))
-    cv2.imshow("final_frame", final_frame)
+    # cv2.imshow("final_frame", final_frame)
 
     n_white_pix_yellow = np.sum(yellow_mask == 255)
     n_white_pix_blue = np.sum(blue_mask == 255)

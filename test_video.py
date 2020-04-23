@@ -20,7 +20,7 @@ df = pd.DataFrame([],columns=['u', 'v', 'h', 'w', 'X', 'Y', 'Z', 'type', 'frame'
 in_ind = 0
 h_fov = 50  # [deg]
 v_fov = 30  # [deg]
-
+frame_number = 85 # update this number according to the
 # mapping from system runner cone type representation to string representation
 type_map = [' '] * 3
 type_map[messages.perception.Yellow - 1] = 'yellow'
@@ -31,9 +31,9 @@ type_map[messages.perception.Orange - 1] = 'orange'
 weights_path = 'outputs/february-2020-experiments/yolo_baseline/9.weights'
 model_cfg = 'model_cfg/yolo_baseline.cfg'
 
-for i in range(1, 20):
+for i in range(1, frame_number+1):
     # open image from the image sequence
-    img_RGB = Image.open('videos/in5/in5_{:04n}.png'.format(i)).convert('RGB')
+    img_RGB = Image.open('videos/big_lap_ordered_cones_1_left/big_lap_ordered_cones_1_left{:03n}0.jpg'.format(i)).convert('RGB')
     #img_depth = Image.open('simulation data/four_cones_depth.png')
     #img_depth = img_depth.load()
     width, height = img_RGB.width, img_RGB.height
@@ -75,6 +75,7 @@ for i in range(1, 20):
         df_row = pd.DataFrame(data=np.array([u, v, h, w, X, Y, Z, type, i]).reshape((1, 9)),
                               columns=['u', 'v', 'h', 'w', 'X', 'Y', 'Z', 'type', 'frame'])
         df = df.append(df_row, ignore_index=True)
+    print(f'\rfinished processing: {i} / {frame_number}')
 
 df.to_csv('videos/in5/in5_results.csv')
-
+print(f'done!')
