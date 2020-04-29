@@ -48,7 +48,7 @@ class Perception:
         # Create the new cone map and append to it all of the recognized cones from the image
         cone_map = messages.perception.ConeMap()
 
-        # get image cones: img_cones=[[x,y,w,h,type,depth],[x,y,w,h,type,depth],....]
+        # get image cones: img_cones=[[x,y,h,w,type,depth],[x,y,h,w,type,depth],....]
         # x,y - left top bounding box position in image plain
         # w, h - width and height of bounding box in pixels
         # type - cone color: 'B' - blue, 'Y' - yellow, 'O' - orange

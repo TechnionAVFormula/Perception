@@ -98,7 +98,7 @@ def single_img_detect(target_img,model,device,conf_thres,nms_thres):
             y0 = main_box_corner[i, 1].to('cpu').item() / ratio - pad_h
             x1 = main_box_corner[i, 2].to('cpu').item() / ratio - pad_w
             y1 = main_box_corner[i, 3].to('cpu').item() / ratio - pad_h 
-            draw.rectangle((x0, y0, x1, y1), outline="red")
+            # draw.rectangle((x0, y0, x1, y1), outline="red")
             # print("BB ", i, "| x = ", x0, "y = ", y0, "w = ", x1 - x0, "h = ", y1 - y0, "probability = ", probabilities_nms[i].item())
             BB = [round(x0), round(y0), round(y1 - y0), round(x1 - x0)]  # x, y, h, w
             BB_list.append(BB)
