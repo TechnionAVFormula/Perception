@@ -29,6 +29,8 @@ The repo is originally forked from https://github.com/ultralytics/yolov3 and con
 ##### Download through GCP Tookit
 ###### 1.1.1 Image dataset:
 ```
+pip install gsutil
+
 gsutil cp -p gs://mit-driverless-open-source/YOLO_Dataset.zip ./dataset/
 ```
 then unzip 
