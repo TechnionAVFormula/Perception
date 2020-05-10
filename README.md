@@ -31,11 +31,13 @@ The repo is originally forked from https://github.com/ultralytics/yolov3 and con
 ```
 pip install gsutil
 
-gsutil cp -p gs://mit-driverless-open-source/YOLO_Dataset.zip ./dataset/
+gsutil cp -p gs://mit-driverless-open-source/YOLO_Dataset.zip ./dataset
 ```
 then unzip 
 ```
 unzip dataset/YOLO_Dataset.zip -d ./dataset/
+
+or mannualy - if the first doesn't work
 ```
 ###### 1.1.2 Label csv file:
 ```
