@@ -37,31 +37,31 @@ then unzip
 ```
 unzip dataset/YOLO_Dataset.zip -d ./dataset/
 
-or mannualy - if the first doesn't work
+or manualךy - if the first doesn't work - DOWNLOAD A ZIP AND UNZIP MANUALLY
 ```
 ###### 1.1.2 Label csv file:
 ```
-gsutil cp -p gs://mit-driverless-open-source/yolov3-training/all.csv ./dataset/
+gsutil cp -p gs://mit-driverless-open-source/yolov3-training/all.csv ./dataset
 ```
 ```
-gsutil cp -p gs://mit-driverless-open-source/yolov3-training/train.csv ./dataset/
+gsutil cp -p gs://mit-driverless-open-source/yolov3-training/train.csv ./dataset
 ```
 ```
-gsutil cp -p gs://mit-driverless-open-source/yolov3-training/validate.csv ./dataset/
+gsutil cp -p gs://mit-driverless-open-source/yolov3-training/validate.csv ./dataset
 ```
 ###### 1.1.3 Initial weights file:
 YoloV3 initial weights:
 ```
-gsutil cp -p  gs://mit-driverless-open-source/yolov3-training/sample-yolov3.weights ./dataset/
+gsutil cp -p  gs://mit-driverless-open-source/yolov3-training/sample-yolov3.weights ./dataset
 ```
 
 YoloV3-tiny initial weights:
 ```
-gsutil cp =p gs://mit-driverless-open-source/yolov3-training/sample-yolov3-tiny.weights ./dataset/
+gsutil cp =p gs://mit-driverless-open-source/yolov3-training/sample-yolov3-tiny.weights ./dataset
 ```
 
 ##### Download manually (Optional)
-You can download image dataset and label csv from the link below and unzip them into `./dataset/YOLO_Dataset/` 
+You can download image dataset and label csv from the link below and unzip them into `./dataset/YOLO_Dataset` 
 
 [Image dataset](https://storage.cloud.google.com/mit-driverless-open-source/YOLO_Dataset.zip?authuser=1)
 
